@@ -9,6 +9,13 @@ export class HomePage {
 
   async goto() {
     await this.page.goto("https://automationexercise.com/");
+    const adPopup = this.page.locator('iframe[name="aswift_3"]');
+    if (await adPopup.isVisible()) {
+      await adPopup
+        .contentFrame()
+        .getByRole("button", { name: "Close ad" })
+        .click();
+    }
   }
 
   async cookieConsent() {
