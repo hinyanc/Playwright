@@ -40,3 +40,23 @@ test("submit contact form with valid data and without attachment", async ({
     "Success! Your details have been submitted successfully.",
   );
 });
+
+test("submit contact form with valid data and with attachment", async ({
+  page,
+}) => {
+  const contactPage = new ContactPage(page);
+  await contactPage.goto();
+  await contactPage.fillForm(
+    TEST_NAME,
+    TEST_LOGIN_EMAIL,
+    "Test Subject",
+    "Test Message",
+  );
+  const filePath = path.resolve("tests", "test-file.txt");
+  await contactPage.uploadFile(filePath);
+  await contactPage.submit();
+
+  await expect(contactPage.successMessage).toContainText(
+    "Success! Your details have been submitted successfully.",
+  );
+});

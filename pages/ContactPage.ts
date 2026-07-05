@@ -1,4 +1,4 @@
-import { Page, Locator } from "@playwright/test";
+import { Page, Locator, Dialog } from "@playwright/test";
 import path from "path";
 
 export class ContactPage {
@@ -46,8 +46,9 @@ export class ContactPage {
   }
 
   async submit() {
-    await this.page.once("dialog", (dialog) => {
-      dialog.accept();
+    this.page.once("dialog", async (dialog) => {
+      console.log(`Dialog message: ${dialog.message()}`);
+      await dialog.accept();
     });
     await this.submitButton.click();
   }
