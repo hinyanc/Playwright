@@ -8,6 +8,9 @@ const TEST_LOGIN_EMAIL =
   process.env.TEST_VALID_EMAIL || "test_user@example.com";
 
 test.beforeEach(async ({ page }) => {
+  await page.route(/(googlesyndication|doubleclick|adsbygoogle)/, (route) =>
+    route.abort(),
+  );
   const homePage = new HomePage(page);
   await homePage.goto();
   await homePage.cookieConsent();
