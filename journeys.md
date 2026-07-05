@@ -1,19 +1,21 @@
-## Six most important user journeys from the site
+## Six Key User Journeys
 
 1. Signup and Login
 2. Logout and Delete Account
 3. Search and Filter Products
-4. Add to Cart / Update Cart
+4. Add to Cart and Update Cart
 5. Checkout and Payment
-6. Contact Us form submission (File Upload)
+6. Contact Us Form Submission (with File Upload)
 
-## Four journeys I picked and the reason why I picked
+## Selected Journeys for Automation
 
-| Journey                         | Reason                                                                                   |
-| ------------------------------- | ---------------------------------------------------------------------------------------- |
-| Signup and Login                | The basic authentication to ensure the user can start to shop on this website            |
-| Search and Filter Products      | User needs to discover the desired products (main feature)                               |
-| Add to cart -> Checkout process | The most important E2E feature for user to become customer                               |
-| Contact us form submission      | Customer service of the business, also can test the form submission with the file upload |
+Out of the six journeys above, the following four were selected as they represent the most business critical paths and provide the broadest coverage across the user lifecycle.
 
-These journeys can cover different stages of user behaviours, from onboarding the website, discovery of the products, conversion to support.
+| Journey                    | Reason for Selection                                                                                          |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| Signup and Login           | Core authentication flow, a prerequisite for nearly all other user actions on the site.                       |
+| Search and Filter Products | Primary product discovery mechanism. Ensures users can find what they're looking for.                         |
+| Add to Cart → Checkout     | The main end to end conversion flow, directly tied to revenue generation.                                     |
+| Contact Us Form Submission | Covers customer support functionality and validates file upload handling, a distinct and higher risk feature. |
+
+Together, these four journeys span the full user lifecycle. They cover **onboarding** (Signup/Login), **discovery** (Search/Filter), **conversion** (Add to Cart/Checkout), and **support** (Contact Us), giving balanced coverage across the site's most critical functions.
