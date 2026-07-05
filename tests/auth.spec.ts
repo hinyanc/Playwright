@@ -18,6 +18,9 @@ const TEST_ZIPCODE = process.env.TEST_ZIPCODE ?? "";
 const TEST_MOBILE_NUMBER = process.env.TEST_MOBILE_NUMBER ?? "";
 
 test.beforeEach(async ({ page }) => {
+  await page.route(/(googlesyndication|doubleclick|adsbygoogle)/, (route) =>
+    route.abort(),
+  );
   const homePage = new HomePage(page);
   await homePage.goto();
   await homePage.cookieConsent();
@@ -41,11 +44,13 @@ test("valid login", async ({ page }) => {
   await expect(page.locator("body")).toContainText("Logged in as");
 });
 
-test("invalid login", async ({ page }) => {
+test("invalid login with valid email and invalid password", async ({
+  page,
+}) => {
   const loginPage = new LoginPage(page);
 
   await loginPage.navigateFromHomepage();
-  await loginPage.fillForm(TEST_INVALID_EMAIL, TEST_INVALID_PASSWORD);
+  await loginPage.fillForm(TEST_LOGIN_EMAIL, TEST_INVALID_PASSWORD);
   await loginPage.submit();
 
   await expect(page.locator("body")).toContainText(
@@ -88,4 +93,31 @@ test("fill signup form", async ({ page }) => {
 
   await expect(page).toHaveURL(/.*account_created/);
   await expect(page.locator("body")).toContainText("Account Created!");
+});
+
+test("invalid signup with existing email", async ({ page }) => {
+  const signupPage = new SignupPage(page);
+
+  await signupPage.navigateFromHomepage();
+  await signupPage.fillBasicInfoAndSubmit(TEST_NAME, TEST_LOGIN_EMAIL);
+
+  await expect(page.locator("body")).toContainText(
+    "Email Address already exist!",
+  );
+});
+
+test("fill signup form without required fields", async ({ page }) => {
+  const uniqueSignupEmail = `test_${Date.now()}@example.com`;
+  const signupPage = new SignupPage(page);
+
+  await signupPage.navigateFromHomepage();
+  await signupPage.fillBasicInfoAndSubmit(TEST_NAME, uniqueSignupEmail);
+
+  await expect(page).toHaveURL(/.*signup/);
+
+  // Submit the form without filling required fields
+  await signupPage.createAccount();
+
+  // Check for validation errors or messages indicating missing required fields
+  await expect(page.locator("body")).toContainText("Please fill in this field");
 });
