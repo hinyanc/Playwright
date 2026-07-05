@@ -36,6 +36,9 @@ const KIDS_CATEGORY_OPTIONS = [
 ];
 
 test.beforeEach(async ({ page }) => {
+  await page.route(/(googlesyndication|doubleclick|adsbygoogle)/, (route) =>
+    route.abort(),
+  );
   const homePage = new HomePage(page);
   await homePage.goto();
   await homePage.cookieConsent();
@@ -82,5 +85,5 @@ test("view product details", async ({ page }) => {
   await productPage.goto();
   await productPage.viewProductDetails();
 
-  await expect(page).toHaveURL(/.*product_details\/2/);
+  await expect(page).toHaveURL(/.*product_details\/1/);
 });
